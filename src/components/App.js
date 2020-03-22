@@ -1,3 +1,4 @@
+// Import React
 import React, { Component } from 'react';
 import {
   BrowserRouter,
@@ -5,13 +6,18 @@ import {
   Switch,
   Redirect
 } from 'react-router-dom';
-import '../index.css';
 import axios from 'axios';
+
+// Import styles
+import '../index.css';
+
+// Import App Components
 import Nav from './Nav';
 import PhotoList from './PhotoList';
 import SearchForm from './SearchForm';
 import PageNotFound from './PageNotFound';
 
+// Import ApiKey
 import apiKey from '../config';
 const APIKey = apiKey;
 
@@ -26,17 +32,18 @@ class App extends Component{
     }
   }
 
+  // As soon as the component is rendered the app perform a request
   componentDidMount() {
     this.handleSearch(this.state.query);
   }
 
+  // Function to handle the search
   handleSearch = (query = 'sunset') => {
     this.setState({
       loading: true
     })
     axios.get(`https://www.flickr.com/services/rest/?method=flickr.photos.search&api_key=${APIKey}&tags=${query}&per_page=24&format=json&nojsoncallback=1`)
       .then(response => {
-        console.log(response.data.photos.photo);
         this.setState({
           photos: response.data.photos.photo,
           loading: false,

@@ -1,5 +1,6 @@
 import React from 'react';
 
+// Component for 404 error
 const PageNotFound = () => {
     return(
         <div>

@@ -1,6 +1,7 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
 
+// Component that render the links for three main topic
 const Nav = (props) => (
     <div className="main-nav">
         <ul>

@@ -2,6 +2,7 @@ import React from 'react';
 import Photo from './Photo';
 import NotFound from './NotFound';
 
+// Container of all photos
 const PhotoList = props => {
 
     const results = props.data;

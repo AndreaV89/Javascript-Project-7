@@ -20,25 +20,32 @@ class App extends Component{
     super();
     this.state = {
       photos: [],
-      loading: true
+      loading: true,
+      query: 'sunset'
     }
   }
 
   componentDidMount() {
-    this.handleSearch();
+    this.handleSearch(this.state.query);
   }
 
-  handleSearch = (query = 'sunsets') => {
+  handleSearch = (query = 'sunset') => {
     axios.get(`https://www.flickr.com/services/rest/?method=flickr.photos.search&api_key=${APIKey}&tags=${query}&per_page=24&format=json&nojsoncallback=1`)
       .then(response => {
         console.log(response.data.photos.photo);
         this.setState({
           photos: response.data.photos.photo,
-          loading: false
+          loading: false,
         });
       }).catch(error => {
         console.log('Error fetching and parsing data', error);
       });
+  }
+
+  setQuery = query => {
+    console.log(this.state.query);
+    this.setState({query});
+    this.handleSearch(this.state.query)
   }
 
   render() {
@@ -46,13 +53,14 @@ class App extends Component{
       <BrowserRouter>
         <div className="container">
           <SearchForm onSearch={this.handleSearch} />
-          <Nav />
+          <Nav onClick={this.setQuery}/>
           <div className="photo-container">
             <Switch>
-              <Route exact path="/" render={ () => <Redirect to="/sunsets" /> } />
-              <Route path="/sunsets" render={ () => <PhotoList data={this.state.photos} title="Sunset"/> } />
-              <Route path="/waterfalls" render={ () => <PhotoList data={this.state.photos} title="Waterfalls"/> } />
-              <Route path="/rainbows" render={ () => <PhotoList data={this.state.photos} title="Rainbows"/> } />
+              <Route exact path="/" render={ () => <Redirect to="search/sunsets" /> } />
+              <Route path="/sunsets" render={ () => <PhotoList data={this.state.photos} title={this.state.query}/> } />
+              <Route path="/waterfalls" render={ () => <PhotoList data={this.state.photos} title={this.state.query}/> } />
+              <Route path="/rainbows" render={ () => <PhotoList data={this.state.photos} title={this.state.query}/> } />
+              <Route path="/search/:searchTerm" render={ () => <PhotoList data={this.state.photos} title={this.state.query}/> } />
             </Switch>
           </div>
         </div>

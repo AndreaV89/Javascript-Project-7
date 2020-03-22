@@ -2,18 +2,13 @@ import React, { Component } from 'react';
 
 class SearchForm extends Component {
 
-    state = {
-        searchText: ''
-    }
-
-    onSearchChange = e => {
-        this.setState({ searchText: e.target.value });
-    }
-
     handleSubmit = e => {
         e.preventDefault();
-        this.props.onSearch(this.query.value);
+        const searchTerm = this.query.value;
+        const path = `../search/${searchTerm}`;
+        window.history.pushState({ urlPath: path }, '', path);
         e.currentTarget.reset();
+        this.props.onSearch(searchTerm);
     }
 
     render() {

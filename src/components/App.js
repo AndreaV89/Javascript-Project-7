@@ -36,24 +36,25 @@ class App extends Component{
         this.setState({
           photos: response.data.photos.photo,
           loading: false,
+          query: query
         });
       }).catch(error => {
         console.log('Error fetching and parsing data', error);
       });
   }
 
-  setQuery = query => {
-    console.log(this.state.query);
-    this.setState({query});
-    this.handleSearch(this.state.query)
-  }
+  // setQuery = query => {
+  //   console.log(this.state.query);
+  //   this.setState({query});
+  //   this.handleSearch(this.state.query)
+  // }
 
   render() {
     return (
       <BrowserRouter>
         <div className="container">
           <SearchForm onSearch={this.handleSearch} />
-          <Nav onClick={this.setQuery}/>
+          <Nav onClick={this.handleSearch}/>
           <div className="photo-container">
             <Switch>
               <Route exact path="/" render={ () => <Redirect to="search/sunsets" /> } />
